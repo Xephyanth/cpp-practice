@@ -7,8 +7,11 @@ project(GameOfLife)
 # Определяем стандарт C++
 set(CMAKE_CXX_STANDARD 17)
 
-# Поиск установленной библиотеки
+# Поиск установленных библиотек
+# Подключаем SDL2
 find_package(SDL2 REQUIRED)
+# Подключаем Boost, модуль program_options
+find_package(Boost REQUIRED COMPONENTS program_options REQUIRED)
 
 # Указываем исходные файлы
 file(GLOB SOURCES "src/*.cpp")
@@ -19,9 +22,12 @@ add_executable(GameOfLife ${SOURCES})
 # Подключаем каталог с заголовочными файлами
 include_directories(include)
 include_directories(GameOfLife ${SDL2_INCLUDE_DIRS})
+include_directories(GameOfLife ${Boost_INCLUDE_DIR})
 
-# Связываем библиотеку SDL2 с нашим проектом
+# Связываем библиотеку SDL2 с проектом
 target_link_libraries(GameOfLife ${SDL2_LIBRARIES})
+# Связываем библиотеку Boost с проектом
+target_link_libraries(GameOfLife ${Boost_LIBRARIES})
 
 # Добавляем файл SDL2.dll к исполняемому файлу для запуска приложения
 add_custom_command(TARGET GameOfLife POST_BUILD
